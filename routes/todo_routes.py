@@ -1,29 +1,40 @@
 from flask import Blueprint, render_template, request, redirect
+from flask_login import login_required
 from models import db, Todo
 
 # Create blueprint
 todo_bp = Blueprint('todo', __name__)
 
 @todo_bp.route('/')
+@login_required
 def read_todo():
     all = Todo.query.all()
     return render_template('index.html', allTodo=all)
 
+@todo_bp.route('/todos')
+@login_required
+def read_todo_list():
+    all = Todo.query.all()
+    return render_template('todos.html', allTodo=all)
+
 @todo_bp.route('/add', methods=['POST'])
+@login_required
 def add_todo():
     title = request.form['title']
     description = request.form['description']
     todo = Todo(title=title, description=description)
     db.session.add(todo)
     db.session.commit()
-    return redirect('/')
+    return redirect('/todos')
 
 @todo_bp.route('/edit/<int:id>')
+@login_required
 def edit_todo(id):
     todo = Todo.query.filter_by(id=id).first()
     return render_template('update.html', todo=todo)
 
 @todo_bp.route('/update/<int:id>', methods=['POST'])
+@login_required
 def edit_todo_save(id):
     title = request.form['title']
     description = request.form['description']
@@ -34,6 +45,7 @@ def edit_todo_save(id):
     return redirect('/')
 
 @todo_bp.route('/delete/<int:id>')
+@login_required
 def delete_todo(id):
     todo = Todo.query.filter_by(id=id).first()
     db.session.delete(todo)
