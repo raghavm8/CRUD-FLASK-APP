@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, redirect
 from flask_login import login_required
 from models import db, Todo
+from flask_login import current_user
 
 # Create blueprint
 todo_bp = Blueprint('todo', __name__)
@@ -9,12 +10,13 @@ todo_bp = Blueprint('todo', __name__)
 @login_required
 def read_todo():
     all = Todo.query.all()
-    return render_template('index.html', allTodo=all)
+    return render_template('index.html')
 
 @todo_bp.route('/todos')
 @login_required
 def read_todo_list():
-    all = Todo.query.all()
+    all = Todo.query.filter_by(created_by=current_user.id).all()
+    print(all)
     return render_template('todos.html', allTodo=all)
 
 @todo_bp.route('/add', methods=['POST'])
@@ -22,7 +24,8 @@ def read_todo_list():
 def add_todo():
     title = request.form['title']
     description = request.form['description']
-    todo = Todo(title=title, description=description)
+    created_by = current_user.id
+    todo = Todo(title=title, description=description, created_by=created_by)
     db.session.add(todo)
     db.session.commit()
     return redirect('/todos')
