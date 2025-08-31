@@ -1,0 +1,38 @@
+   
+{% extends "base.html" %}
+
+{% block body %}
+   <div class="container my-3">
+      {% if allUser|length == 0 %}
+        <div class="alert alert-secondary" role="alert">No User</div>
+      {% else %}
+      <h2>Users:</h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Email ID</th>
+            <th scope="col">Role</th>
+            <th scope="col">Todos of user</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in allUser %}
+            {% if user.role.value != 'Admin' %}
+              <tr>
+                <th scope="row">{{loop.index}}</th>
+                <td>{{user.name}}</td>
+                <td>{{user.email}}</td>
+                <td>{{user.role.value}}</td>
+                <td>
+                    <a href="todos/{{user.id}}" type="button" class="btn btn-secondary btn-sm mx-1">Todos</button>
+                </td>
+              </tr>
+            {% endif %}
+          {% endfor %}     
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+    {% endblock body %}

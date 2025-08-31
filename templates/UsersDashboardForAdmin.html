@@ -1,0 +1,69 @@
+   
+{% extends "base.html" %}
+
+{% block body %}
+   <div class="container my-3">
+      {% if users|length == 0 %}
+        <div class="alert alert-secondary" role="alert">No User</div>
+      {% else %}
+      <h2>Users:</h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Email ID</th>
+            <th scope="col">Manager Id</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in users %}
+            {% if user.role.value != 'Admin' %}
+              <tr>
+                <th scope="row">{{loop.index}}</th>
+                <td>{{user.name}}</td>
+                <td>{{user.email}}</td>
+                <td>{{user.manager_id}}</td>
+                <td>
+                    <a href="makemanager/{{user.id}}" type="button" class="btn btn-secondary btn-sm mx-1">Make Manager</button>
+                </td>
+              </tr>
+            {% endif %}
+          {% endfor %}
+          {% endif %}
+        </tbody>
+      </table>
+
+
+      <!-- {% if managers|length == 0 %}
+        <div class="alert alert-secondary" role="alert">No User</div>
+      {% else %}
+      <h2>Managers:</h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Email ID</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in managers %}
+            {% if user.role.value != 'Admin' %}
+              <tr>
+                <th scope="row">{{loop.index - 1}}</th>
+                <td>{{user.name}}</td>
+                <td>{{user.email}}</td>
+                <td>
+                    <a href="makeuser/{{user.id}}" type="button" class="btn btn-secondary btn-sm mx-1">Make User</button>
+                </td>
+              </tr>
+            {% endif %}
+          {% endfor %}     
+          {% endif %}
+        </tbody>
+      </table> -->
+    </div>
+    {% endblock body %}

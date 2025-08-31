@@ -8,7 +8,7 @@ from werkzeug.security import check_password_hash
 from flask_login import login_user
 from flask_login import logout_user
 from flask_login import login_required
-
+from models import Role
 
 auth_bp = Blueprint('auth','__name__')
 
@@ -32,6 +32,7 @@ def login_post():
         return redirect(url_for('auth.login'))
     
     login_user(user)
+    print(user.role)
     return redirect(url_for('todo.read_todo'))
 
 @auth_bp.route('/signup', methods=['POST'])

@@ -28,11 +28,11 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            {% if current_user.is_authenticated %}
+            {% if current_user.is_authenticated and current_user.role.value ==
+            'User' %}
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="/todos"
-                >Todos</a
-              >
+                >Todos</a>
             </li>
             {% endif %} {% if not current_user.is_authenticated %}
             <li class="nav-item">
@@ -47,6 +47,19 @@
             {% endif %} {% if current_user.is_authenticated %}
             <li class="nav-item">
               <a class="nav-link" href="/logout">logout</a>
+            </li>
+            {% endif %} 
+            {% if current_user.is_authenticated and current_user.role.value == 'Manager' %}
+            <li class="nav-item">
+              <a class="nav-link" href="/allUsers/Manager/{{current_user.id}}">All Users</a>
+            </li>
+            {% endif %} 
+            {% if current_user.is_authenticated and current_user.role.value == 'Admin' %}
+            <li class="nav-item">
+              <a class="nav-link" href="/allUsers/Admin">All Users</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/allManagers/Admin">All Managers</a>
             </li>
             {% endif %}
           </ul>

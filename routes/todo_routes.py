@@ -16,7 +16,12 @@ def read_todo():
 @login_required
 def read_todo_list():
     all = Todo.query.filter_by(created_by=current_user.id).all()
-    print(all)
+    return render_template('todos.html', allTodo=all)
+
+@todo_bp.route('/allUsers/Manager/todos/<int:created_by_id>')
+@login_required
+def read_todo_list_per_user(created_by_id):
+    all = Todo.query.filter_by(created_by=created_by_id).all()
     return render_template('todos.html', allTodo=all)
 
 @todo_bp.route('/add', methods=['POST'])

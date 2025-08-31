@@ -1,5 +1,4 @@
-   
-{% extends "base.html" %}
+   {% extends "base.html" %}
 
 {% block body %}
    <div class="container my-3">
@@ -14,6 +13,8 @@
             <th scope="col">Title</th>
             <th scope="col">Description</th>
             <th scope="col">Created Date</th>
+            <th scope="col">Priority</th>
+            <th scope="col">Status</th>
             <th scope="col">Actions</th>
           </tr>
         </thead>
@@ -24,10 +25,14 @@
             <td>{{todo.title}}</td>
             <td>{{todo.description}}</td>
             <td>{{todo.created_date}}</td>
+            <td>{{todo.priority.value}}</td>
+            <td>{{todo.status.value}}</td>
             <td>
+              {% if current_user.id == todo.created_by %}
               <a href="edit/{{todo.id}}" type="button" class="btn btn-secondary btn-sm mx-1">Edit</button>
               <a href="delete/{{todo.id}}" type="button" class="btn btn-secondary btn-sm mx-1">Delete</button>
             </td>
+            {% endif %}
           </tr>
           {% endfor %}     
           {% endif %}
